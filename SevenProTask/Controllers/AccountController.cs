@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using SevenProTask.Controllers.Extension;
 using SevenProTask.Models;
 using SevenProTask.ViewModels;
-using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace SevenProTask.Controllers
 {

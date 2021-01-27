@@ -10,5 +10,7 @@ namespace SevenProTask.Models
         {
             Database.EnsureCreated();
         }
+
+        public DbSet<Course> Courses { get; set; }
     }
 }

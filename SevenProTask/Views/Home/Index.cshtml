@@ -1,13 +1,158 @@
-﻿@{
+﻿@model SevenProTask.ViewModels.CourseViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
 <div class="row">
-    <div class="col-4">
-        <h1 class="display-4">Welcome</h1>
-        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="col-5">
+    @if (Model.IsCourses)
+    {
+        <table class="table">
+            <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.CourseName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TimeBegin)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TimeEnd)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Day)
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.Courses)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CourseName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TimeBegin.TimeOfDay)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TimeEnd.TimeOfDay)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Day)
+                    </td>
+                    <td>
+                        <a asp-controller="Home" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Create course</button>
+    }
+    else
+    {
+        <p>Калегдарь событий пуст</p>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Создать первый курс</button>
+
+    }
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                  <form asp-action="Create">
+                      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                      <div class="form-group">
+                          <label asp-for="CourseName" class="control-label"></label>
+                          <input asp-for="CourseName" class="form-control" />
+                          <span asp-validation-for="CourseName" class="text-danger"></span>
+                      </div>
+                      <div class="form-group">
+                          <label asp-for="Description" class="control-label"></label>
+                          <input asp-for="Description" class="form-control" />
+                          <span asp-validation-for="Description" class="text-danger"></span>
+                      </div>
+                      <div class="form-group">
+                          <label asp-for="Price" class="control-label"></label>
+                          <input asp-for="Price" class="form-control" />
+                          <span asp-validation-for="Price" class="text-danger"></span>
+                      </div>
+                      <div class="form-group">
+                          <label asp-for="Day" class="control-label"></label>
+                          <select asp-for="Day" class ="form-control" asp-items="ViewBag.Days"></select>
+                      </div>
+                      <div class="form-group">
+                          <label asp-for="TimeBegin" class="control-label"></label>
+                          <select asp-for="TimeBegin" class ="form-control" asp-items="ViewBag.TimeIntervals"></select>
+                          <span asp-validation-for="TimeBegin" class="text-danger"></span>
+                      </div>
+                      <div class="form-group">
+                          <label asp-for="TimeEnd" class="control-label"></label>
+                          <select asp-for="TimeEnd" class ="form-control" asp-items="ViewBag.TimeIntervals"></select>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="submit" value="Create" class="btn btn-primary" id="btn">Create</button>
+                      </div>
+                  </form>
+                  <div id="result_form"></div> 
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
-    <div class="col-8">
-        <h1 class="display-4">Welcome</h1>
-        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    </div>    
+    
+    
+    
+    
+    <div class="col-7">
+        <div class="container-fluid">
+            <header>
+                <div class="row d-none d-sm-flex p-1 bg-dark text-white">
+                    <h5 class="col-sm p-1 text-center">#</h5>
+                    <h5 class="col-sm p-1 text-center">Monday</h5>
+                    <h5 class="col-sm p-1 text-center">Tuesday</h5>
+                    <h5 class="col-sm p-1 text-center">Wednesday</h5>
+                    <h5 class="col-sm p-1 text-center">Thursday</h5>
+                    <h5 class="col-sm p-1 text-center">Friday</h5>
+                </div>
+            </header>
+            <div class="row border border-right-0 border-bottom-0">
+                
+                @for (var i = 0; i < 54; i++)
+                {
+                    var time = new DateTime(1, 1, 1, 9, 0, 0);
+                    if (i % 6 == 0 && i > 1)
+                    {
+                        @:<div class="w-100"></div>
+                    }
+                    <div class="day col-sm p-4 border border-left-0 border-top-0 text-truncate">
+                        <h5 class="col-sm p-1 text-center">
+                            @if (i % 6 == 0)
+                            {
+                                <label>@time.AddMinutes((i / 6) * 60).ToShortTimeString()</label>
+                            }
+                        </h5>
+                    </div>
+                }
+            </div>
+        </div>    
+    </div>
 </div>
