@@ -56,22 +56,19 @@ namespace SevenProTask.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (!ModelState.IsValid) return View(model);
-            var result = 
-                await _signInManager.PasswordSignInAsyncEmail(_userManager,model.Email, model.Password, model.RememberMe, false);
-            if (!result.Succeeded)
-            {
-                ModelState.AddModelError("", "Неправильный логин и (или) пароль");
-            }
-            else
-            {
-                // проверяем, принадлежит ли URL приложению
+            if (!ModelState.IsValid) 
+                return View(model);
+            var result = await _signInManager
+                .PasswordSignInAsyncEmail(_userManager,model.Email, model.Password, model.RememberMe, false);
+
+            if (result.Succeeded)
                 return !string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl)
                     ? (IActionResult) Redirect(model.ReturnUrl)
                     : RedirectToAction("Index", "Home");
-            }
-
+            
+            ModelState.AddModelError("", "Неправильный логин и (или) пароль");
             return View(model);
+
         }
  
         [HttpPost]

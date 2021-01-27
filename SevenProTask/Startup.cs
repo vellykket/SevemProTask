@@ -29,7 +29,10 @@ namespace SevenProTask
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>(opt =>
+                {
+                    opt.User.RequireUniqueEmail = true;
+                })
                 .AddEntityFrameworkStores<ApplicationContext>();
             
             services.AddControllersWithViews();
