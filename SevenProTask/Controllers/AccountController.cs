@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SevenProTask.Controllers.Extension;
@@ -29,6 +30,7 @@ namespace SevenProTask.Controllers
             var user = new User { Email = model.Email, UserName = model.UserName, UserLastName = model.UserLastName};
             // добавляем пользователя
             var result = await _userManager.CreateAsync(user, model.Password);
+            Console.WriteLine("Test");
             if (!result.Succeeded)
             {
                 foreach (var error in result.Errors)
